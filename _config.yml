@@ -1,0 +1,4 @@
+coursename: "Intermediate Programming, Spring 2020"
+baseurl: "/spring2020"
+markdown: kramdown
+highlighter: rouge
