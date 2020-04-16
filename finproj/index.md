@@ -11,6 +11,15 @@ In this project, your team will implement a maze game in which the Hero ("@") tr
 
 TODO: videos and playable demo.
 
+Here is a video showing the basic version of the game:
+
+<center>
+<video width="658" height="462" controls>
+  <source src="media/demo3-cut.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
+</center>
+
 ## Getting started
 
 Create a bitbucket repository for your team, and make sure that all of the team members have write permission.  Make sure you create a *private* repository.  One team member should clone the bitbucket repository to create a local repository.
@@ -333,7 +342,7 @@ The `displayMessage` member function should save the parameter string value in a
 
 The `render` member function should print a representation of the maze, one line of text per row of the maze, using the appropriate glyph character for each `Tile` and `Entity`.  As a special case, if two entities occupy the same position, the glyph of the entity that was added later should take priority. (For example, if the Minotaur entity was added after the Hero entity, and the Minotaur has captured the Hero, the Minotaur's glyph should be printed, rather than the Hero's glyph.)
 
-Also, after printing the representation of the maze, the `render` member function should check to see if a message (from a prior call to `displayMessage`) is waiting to be displayed.  If so, it should be printed on a single line after the maze representation, preceeded by a colon and space.
+Also, after printing the representation of the maze, the `render` member function should check to see if a message (from a prior call to `displayMessage`) is waiting to be displayed.  If so, it should be printed on a single line after the maze representation, preceeded by a colon and space.  Once a message has been printed by a call to `render`, it should be cleared.  (I.e., a message should only be displayed by a single call to `render`.)
 
 ## Recommended approach
 
