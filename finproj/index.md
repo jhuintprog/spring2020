@@ -110,7 +110,7 @@ All tests passed!
 
 The `setup` and `cleanup` functions are called automatically to give each test function its own freshly-created test fixture.
 
-However: because C++ is a memory-unsafe language (memory bugs can corrupt the program state), test function executions are not truly independent of each other, and a bug triggered by an earlier test function can affect the results of a later test function.  For that reason, using a command line argument to specify a specific test function ensures the most accurate testing for that test function.
+However: because C++ is a memory-unsafe language (memory bugs can corrupt the program state), test function executions are not truly independent of each other, and a bug triggered by an earlier test function can affect the results of a later test function.  For that reason, using a command line argument to specify a specific test function ensures the most accurate execution for that test function.
 
 ## Driver program
 
@@ -123,7 +123,41 @@ TODO: discuss expectations for what the driver program should do
 
 ## Hints and specifications
 
-TODO
+To a significant extent, comments in the header files describe the correct behavior of each member function you will need to implement.  This section provides additional details.
+
+### No value semantics
+
+One thing you will notice about most of the classes in this project is that the copy constructor and assignment operator are private and not implemented.  This is because for classes intended to exhibit polymorphism, value semantics — the ability to copy, assign, pass, and return objects by value — are usually not useful.  For this reason, nearly every object in this assignment will be created dynamically and accessed via a pointer.  The one exception is `Position`, which does have value semantics.
+
+Because most objects will be dynamically allocated, you will need to think carefully about how to ensure that the program has no memory leaks.  Pay careful attention to member functions which are documented as assuming responsibility for deleting an object.  For example, this is the declaration of the `addTile` member function in the `Maze` class:
+
+```cpp
+// Set a Tile at the specified Position.  The Maze assumes responsibility
+// for deleting the Tile.
+void setTile(const Position &pos, Tile *tile);
+```
+
+This means that the `Maze` object should delete its `Tile` objects when its destructor is called.
+
+### Reading maze data
+
+The `Maze` class's `read` static member function reads maze file data from an `istream`.  A maze file consists of a series of lines.  The first line will have two integers representing the maze's width and height.  Based on the maze height, a number of lines will follow, each line specifying one row of the maze.  The number of characters of each line should be exactly equal to the maze width.  Each character represents one tile of the maze.  A tile character can be converted into a `Tile` object by calling the `createFromChar` member function on the singleton instance of `TileFactory`, which you can get by calling `TileFactory::getInstance()`.  If the `TileFactory`'s `createFromChar` member function returns a null pointer, it means the tile character is not valid, in which case the maze is not valid, and `Maze::read` should return a null pointer.
+
+Here is an example maze file:
+
+```
+20 10
+####################
+#................<.#
+#..................#
+#...###............#
+#.....#............#
+#.....#............#
+#...###............#
+#..................#
+#..................#
+####################
+```
 
 ## Recommended approach
 
@@ -131,7 +165,7 @@ This section explains our recommendations to making progress on this project.
 
 *Start with the simplest classes.* The `Wall`, `Floor`, and `Goal` classes are fairly simple. The `tiletest.cpp` test program has some useful tests for them, and you can add more of your own.
 
-*Create stub implementations of classes that are required for compilation and linking, but which you aren't ready to work on.* The `EntityControllerFactory` class won't work until you have implemented *all* of the classes which derived from `EntityController`.  One of these, `AStarChaseHero`, is fairly challenging to implement. However, you won't need a working version of this class until relatively late in your development work. So, you can create a *stub* implementation whose member functions throw an exception or deliberately fail an assertion if called. For example, your stub implementation of `AStarChaseHero` might look like this:
+*Create stub implementations of classes that are required for compilation and linking, but which you aren't ready to work on.* The `EntityControllerFactory` class won't work until you have implemented *all* of the classes which derived from `EntityController`.  One of these, `AStarChaseHero`, is fairly challenging to implement. However, you won't need a working version of this class until relatively late in your development work. So, you can create a *stub* implementation whose member functions throw an exception or deliberately fail an assertion if called. For example, your stub implementation of `AStarChaseHero`'s `getMoveDirection` member function might look like this:
 
 ```cpp
 Direction AStarChaseHero::getMoveDirection(Game *game, Entity *entity) {
