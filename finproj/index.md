@@ -9,8 +9,6 @@ title: "Final project"
 
 In this project, your team will implement a maze game in which the Hero ("@") tries to escape and avoid being captured by the Minotaur ("M").
 
-TODO: videos and playable demo.
-
 Here is a video showing the basic version of the game:
 
 <center>
@@ -19,6 +17,19 @@ Here is a video showing the basic version of the game:
 Your browser does not support the video tag.
 </video>
 </center>
+
+Here is a video showing a fancier version of the game using the [curses](#curses-driver-program) user interface library:
+
+<center>
+<video width="658" height="462" controls>
+  <source src="media/demo4.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
+</center>
+
+<!--
+Best of all, here is a [playable demo](play/tminotaur.html) of the curses UI.  The WASD keys move up/left/down/right.
+-->
 
 ## Getting started
 
