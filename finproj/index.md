@@ -118,15 +118,50 @@ However: because C++ is a memory-unsafe language (memory bugs can corrupt the pr
 
 ### Driver program
 
-TODO: discuss expectations for what the driver program should do
+The driver program should be called with a single game file as a command line argument, and allow the user to play the game, using an instance of `TextUI` as the `UI` object.
 
-<!--
- | `tctestpp`
--->
+Here is a possible `main` function you could use for your driver program:
+
+```cpp
+int main(int argc, char *argv[]) {
+  const char *filename;
+  if (argc < 2) {
+    std::cerr << "Error: Need filename" << std::endl;
+    return 1;
+  }
+  filename = argv[1];
+
+  std::ifstream in(filename);
+  if (!in.is_open()) {
+    std::cerr << "Error: Could not open maze file" << std::endl;
+    return 1;
+  }
+
+  Game *game = Game::loadGame(in);
+  if (!game) {
+    std::cerr << "Error: Invalid game file" << std::endl;
+    return 1;
+  }
+
+  game->setUI(new TextUI());
+  game->setGameRules(new BasicGameRules());
+  game->gameLoop();
+
+  delete game;
+
+  return 0;
+}
+```
 
 ### Curses driver program
 
-TODO: description of the curses driver program
+**Important**: This part is completely optional, and just for fun! Don't work on it until you've completed all of the required features.
+
+The [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)) library allows full control over the cursor and keyboard input for programs running in a terminal.  You can use curses to created a "screen-oriented" version of the user interface.
+
+To do this, create a `CursesUI` class that derives from `UI`.  Create a new driver program that creates a `CursesUI` object rather than a `TextUI` object as the `Game`'s user interface object.
+
+Use the [ncurses](https://invisible-island.net/ncurses/announce.html) variant of the curses library. This is available on the ugrad machines.  Your `cursesui.cpp` file should `#include <ncurses.h>` in order to use ncurses.
 
 ## Hints and specifications
 
@@ -219,7 +254,7 @@ There are several entity properties having meanings that are significant for gam
 
 The hero entity has the "h" property, and the Minotaur has the "m" property.  If an entity with the "m" property captures an entity having the "h" property, it means the hero has been captured, and loses the game.  If an entity with the "h" property reaches a goal `Tile`, the hero wins the game.
 
-An entity with the "v" property ("moVeable") can be pushed.
+An entity with the "v" property ("mo**v**eable") can be pushed.
 
 The `getEntitiesWithProperty` member function of the `Game` class is useful for getting the entities having a specific property.  Your game should *not* assume that there is any specific number of entities with any property.  For example:
 
@@ -229,11 +264,24 @@ The `getEntitiesWithProperty` member function of the `Game` class is useful for 
 
 ### Entity, EntityController classes
 
-TODO
+Instances of the `Entity` class represent entities in the game that can (potentially) act.  Each `Entity` has a position (x/y coordinates specifying a position within the maze.)
+
+Each `Entity` will have an `EntityController` object which controls it.  The `EntityController` proposes how the controlled `Entity` should move.  The `UIControl` implementation of `EntityController` gets proposed moves from the user interface (represented by a `UI` object.)  Other implementations of `EntityController` (`ChaseHero`, `AStarChaseHero`, and `Inanimate`) use code to compute proposed moves for the controlled `Entity`.
+
+The `UIControl` implementation of `EntityController` should use the singleton instance of the `UI` class to get a proposed move for the controlled `Entity`.  The code to get a suggested move from the `UI` object should look something like this:
+
+```cpp
+UI *ui = UI::getInstance();
+Direction dir = ui->getMoveDirection();
+```
+
+The `ChaseHero` implementation of `EntityController` should move the controlled entity towards the closest `Entity` object with the "h" (hero) property.  Specifically, it should determine the horizontal distance and vertical distance to the closest hero.  If the hero is farther horizontally than vertically, the proposed move should be horizontal, otherwise the proposed move should be vertical. If the hero is equally far both horizontally and vertically, horizontal movement is preserved.  However, if the controlled `Entity` is blocked along the preferred axis, but movement is possible along the other axis, then the proposed move should be along the unblocked axis.  `ChaseHero` is essentially a simple AI to control the Minotaur, but it's not very smart, and allows the Minotaur to become blocked on dead-end paths in the maze.
+
+The `AStarChaseHero` implementation of `EntityController` should use the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to move the controlled `Entity` towards the closest entity with the "h" (hero) property.  As the heuristic function, use the total number of horizontal and vertical to the hero (this can be found easily using the `distanceFrom` member function of the `Position` class.)  Note that implementing this algorithm is fairly challenging, but is very satisfying when you get it to work.  The A\* algorithm produces a complete path to the goal, but the `getMoveDirection` method should just propose a move in the direction of the first "hop" of the path.  When the Minotaur is controlled by `AStarChaseHero`, its movement will be considerably more "intelligent" than when controlled by `ChaseHero`.  (Please resist the temptation to simply copy an implementation of A\* from a web page.)
 
 ### The Game class
 
-TODO
+An instance of the `Game` class encapsulates all of the game objects.  It has two important member functions for allow game progress.
 
 ### GameRules, BasicGameRules classes
 
@@ -256,7 +304,7 @@ Moves out of bounds, or moves by more than 1 unit of distance, are not allowed u
 
 Case 2 of `allowMove` allows an entity to "push" a moveable entity.  Here's an example where the hero pushes an inanimate entity represented by the `*` glyph:
 
-TODO: video showing the hero 
+TODO: video showing the hero pushing a boulder
 
 **Important**: the `allowMove` member function should not change any game data, such as the position of any `Entity` objects. It just determines whether or not a proposed move would be legal.
 
@@ -268,7 +316,7 @@ The `checkGameResult` member function should return a `GameResult` value based o
 
 This section explains our recommendations to making progress on this project.
 
-*Start with the simplest classes.* The `Wall`, `Floor`, and `Goal` classes are fairly simple. The `tiletest.cpp` test program has some useful tests for them, and you can add more of your own.
+*Start with the simplest classes.* The `Wall`, `Floor`, and `Goal` classes are fairly simple. The `tiletest.cpp` test program has some useful tests for them, and you can add more of your own.  `Maze` is also a fairly straightforward class to implement, and has some tests in `mazetest.cpp`.
 
 *Create stub implementations of classes that are required for compilation and linking, but which you aren't ready to work on.* The `EntityControllerFactory` class won't work until you have implemented *all* of the classes which derived from `EntityController`.  One of these, `AStarChaseHero`, is fairly challenging to implement. However, you won't need a working version of this class until relatively late in your development work. So, you can create a *stub* implementation whose member functions throw an exception or deliberately fail an assertion if called. For example, your stub implementation of `AStarChaseHero`'s `getMoveDirection` member function might look like this:
 
