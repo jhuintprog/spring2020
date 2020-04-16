@@ -19,11 +19,15 @@ Pull from the public repository.  You will find a directory called `final-projec
 
 ## Tasks
 
-Your tasks are
+Your tasks are:
 
 * Implement the specified classes
 * Test the specified classes thoroughly, including unit testing
 * Implement a driver program that allows the user to play the game
+
+There is also one optional task:
+
+* Implement a [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)) user interface and driver program
 
 This may seem like a pretty complex project. Don't panic! The [recommended approach](#recommended-approach) section outlines an approach to getting started, making progress, and finishing the project.
 
@@ -112,7 +116,7 @@ The `setup` and `cleanup` functions are called automatically to give each test f
 
 However: because C++ is a memory-unsafe language (memory bugs can corrupt the program state), test function executions are not truly independent of each other, and a bug triggered by an earlier test function can affect the results of a later test function.  For that reason, using a command line argument to specify a specific test function ensures the most accurate execution for that test function.
 
-## Driver program
+### Driver program
 
 TODO: discuss expectations for what the driver program should do
 
@@ -120,6 +124,9 @@ TODO: discuss expectations for what the driver program should do
  | `tctestpp`
 -->
 
+### Curses driver program
+
+TODO: description of the curses driver program
 
 ## Hints and specifications
 
@@ -158,6 +165,92 @@ Here is an example maze file:
 #..................#
 ####################
 ```
+
+### Reading game data
+
+The `Game::loadGame` static member function reads game data from an `istream`.  A game file consists of maze data, followed by a single line containing one or more *entity descriptors*.
+
+An entity descriptor is a character string encoding an `Entity`, followed by integers specifying x and y coordinates defining the `Entity`'s initial position.  The string consists of at least two characters:
+
+* The first character is the entity's *glyph*, which is the character used to represent the entity in the user interface.
+* The second character specifies the entity's `EntityController`; this character can be passed to the `EntityControllerFactory`'s `createFromChar` member function to instantiate the `EntityController` that the entity should use to determine its movement.
+
+Any remaining character in the entity descriptor are the entity's *properties*, which should be set using the `setProperties` member function.
+
+Here is an example game file:
+
+```
+20 10
+####################
+#................<.#
+#..................#
+#...###............#
+#.....#............#
+#.....#............#
+#...###............#
+#..................#
+#..................#
+####################
+@uh 3 5 Mcm 17 5
+```
+
+In the example game file above, there are two entities:
+
+* The first is represented by the "@" glyph, uses the "u" `EntityController` implementation (`UIControl`), has the property "h" ("hero"), and its initial position is x=3, y=5
+* The second is represented by the "M" glyph, uses the "c" `EntityController` implementation (`ChaseHero`), has the property "m" ("monster"), and its initial position is x=17, y=5
+
+The `Game::loadGame` function should return a null pointer if the game data is not valid.
+
+### Entity properties
+
+There are several entity properties having meanings that are significant for gameplay.
+
+The hero entity has the "h" property, and the Minotaur has the "m" property.  If an entity with the "m" property captures an entity having the "h" property, it means the hero has been captured, and loses the game.  If an entity with the "h" property reaches a goal `Tile`, the hero wins the game.
+
+An entity with the "v" property ("moVeable") can be pushed.
+
+The `getEntitiesWithProperty` member function of the `Game` class is useful for getting the entities having a specific property.  Your game should *not* assume that there is any specific number of entities with any property.  For example:
+
+* There could be a game with multiple Minotaurs (entities with the "m" property)
+* There could be a game with no Minotaur
+* There could be a game with multiple heroes (entities with the "h" property)
+
+### Entity, EntityController classes
+
+TODO
+
+### The Game class
+
+TODO
+
+### GameRules, BasicGameRules classes
+
+The `GameRules` class defines the member functions which
+
+* determine which moves are legal (requests by entity objects to move from their current position in the maze to another position)
+* carries out legal moves
+* determines whether the game has been won or lost by the hero, or is still in progress
+
+`GameRules` is an abstract class, and the actual behavior of its member functions is only specified at the level of a concrete derived class.
+
+The `BasicGameRules` is the "standard" implementation of `GameRules`.  It behaves as follows.
+
+The `allowMove` member function should only allow an `Entity` to make a move if either
+
+1. it is onto an adjacent unoccupied `Tile`, and the `Tile`'s `checkMoveOnto` member function allows the move, or
+2. it is onto an adjacent `Tile` occupied by an entity with the "v" (moveable) property, and the moveable entity is permitted to move onto an unoccupied adjacent `Tile` in the same direction that the original entity is moving
+
+Moves out of bounds, or moves by more than 1 unit of distance, are not allowed under any circumstances.
+
+Case 2 of `allowMove` allows an entity to "push" a moveable entity.  Here's an example where the hero pushes an inanimate entity represented by the `*` glyph:
+
+TODO: video showing the hero 
+
+**Important**: the `allowMove` member function should not change any game data, such as the position of any `Entity` objects. It just determines whether or not a proposed move would be legal.
+
+The `enactMove` member function carries out a move approved by a prior call to `allowMove`.  Usually, this just means changing the current position of an `Entity`.  In the case of an entity pushing a moveable entity, the positions of both entities will need to be updated.
+
+The `checkGameResult` member function should return a `GameResult` value based on the current game state.  If any entity with the "h" property has reached a `Goal` tile, it should return `GameResult::HERO_WINS`.  If any entity with the "m" property occupies a position where an entity with the "h" property is located, it should return `GameRules::HERO_LOSES`.  Otherwise, it should return `GameResult::UNKNOWN`.
 
 ## Recommended approach
 
