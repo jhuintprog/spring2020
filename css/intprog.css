@@ -60,6 +60,10 @@ code.highlighter-rouge {
 	border-radius: .25em;
 }
 
+#footer {
+	min-height: 2em;
+}
+
 /*
 vim:ts=2:
 */
