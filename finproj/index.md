@@ -243,8 +243,8 @@ Here is an example game file:
 
 In the example game file above, there are two entities:
 
-* The first is represented by the "@" glyph, uses the "u" `EntityController` implementation (`UIControl`), has the property "h" ("hero"), and its initial position is x=3, y=5
-* The second is represented by the "M" glyph, uses the "c" `EntityController` implementation (`ChaseHero`), has the property "m" ("monster"), and its initial position is x=17, y=5
+* The first is represented by the "@" glyph, uses the "u" `EntityController` implementation (`UIControl`), has the property "h" ("Hero"), and its initial position is x=3, y=5
+* The second is represented by the "M" glyph, uses the "c" `EntityController` implementation (`ChaseHero`), has the property "m" ("Minotaur"), and its initial position is x=17, y=5
 
 The `Game::loadGame` function should return a null pointer if the game data is not valid.
 
@@ -252,7 +252,7 @@ The `Game::loadGame` function should return a null pointer if the game data is n
 
 There are several entity properties having meanings that are significant for gameplay.
 
-The hero entity has the "h" property, and the Minotaur has the "m" property.  If an entity with the "m" property captures an entity having the "h" property, it means the hero has been captured, and loses the game.  If an entity with the "h" property reaches a goal `Tile`, the hero wins the game.
+The Hero entity has the "h" property, and the Minotaur has the "m" property.  If an entity with the "m" property captures an entity having the "h" property, it means the Hero has been captured, and loses the game.  If an entity with the "h" property reaches a goal `Tile`, the Hero wins the game.
 
 An entity with the "v" property ("mo**v**eable") can be pushed.
 
@@ -260,7 +260,7 @@ The `getEntitiesWithProperty` member function of the `Game` class is useful for 
 
 * There could be a game with multiple Minotaurs (entities with the "m" property)
 * There could be a game with no Minotaur
-* There could be a game with multiple heroes (entities with the "h" property)
+* There could be a game with multiple Heroes (entities with the "h" property)
 
 ### Entity, EntityController classes
 
@@ -275,9 +275,9 @@ UI *ui = UI::getInstance();
 Direction dir = ui->getMoveDirection();
 ```
 
-The `ChaseHero` implementation of `EntityController` should move the controlled entity towards the closest `Entity` object with the "h" (hero) property.  Specifically, it should determine the horizontal distance and vertical distance to the closest hero.  If the hero is farther horizontally than vertically, the proposed move should be horizontal, otherwise the proposed move should be vertical. If the hero is equally far both horizontally and vertically, horizontal movement is preserved.  However, if the controlled `Entity` is blocked along the preferred axis, but movement is possible along the other axis, then the proposed move should be along the unblocked axis.  `ChaseHero` is essentially a simple AI to control the Minotaur, but it's not very smart, and allows the Minotaur to become blocked on dead-end paths in the maze.
+The `ChaseHero` implementation of `EntityController` should move the controlled entity towards the closest `Entity` object with the "h" (Hero) property.  Specifically, it should determine the horizontal distance and vertical distance to the closest Hero.  If the Hero is farther horizontally than vertically, the proposed move should be horizontal, otherwise the proposed move should be vertical. If the Hero is equally far both horizontally and vertically, horizontal movement is preserved.  However, if the controlled `Entity` is blocked along the preferred axis, but movement is possible along the other axis, then the proposed move should be along the unblocked axis.  `ChaseHero` is essentially a simple AI to control the Minotaur, but it's not very smart, and allows the Minotaur to become blocked on dead-end paths in the maze.
 
-The `AStarChaseHero` implementation of `EntityController` should use the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to move the controlled `Entity` towards the closest entity with the "h" (hero) property.  As the heuristic function, use the total number of horizontal and vertical to the hero (this can be found easily using the `distanceFrom` member function of the `Position` class.)  Note that implementing this algorithm is fairly challenging, but is very satisfying when you get it to work.  The A\* algorithm produces a complete path to the goal, but the `getMoveDirection` method should just propose a move in the direction of the first "hop" of the path.  When the Minotaur is controlled by `AStarChaseHero`, its movement will be considerably more "intelligent" than when controlled by `ChaseHero`.  (Please resist the temptation to simply copy an implementation of A\* from a web page.)
+The `AStarChaseHero` implementation of `EntityController` should use the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to move the controlled `Entity` towards the closest entity with the "h" (Hero) property.  As the heuristic function, use the total number of horizontal and vertical to the Hero (this can be found easily using the `distanceFrom` member function of the `Position` class.)  Note that implementing this algorithm is fairly challenging, but is very satisfying when you get it to work.  The A\* algorithm produces a complete path to the goal, but the `getMoveDirection` method should just propose a move in the direction of the first "hop" of the path.  When the Minotaur is controlled by `AStarChaseHero`, its movement will be considerably more "intelligent" than when controlled by `ChaseHero`.  (Please resist the temptation to simply copy an implementation of A\* from a web page.)
 
 ### The Game class
 
@@ -287,7 +287,7 @@ To some degree, a `Game` object is just a container for `Maze`, `UI`, `GameRules
 
 The `takeTurn` member function allows one `Entity` object to take a turn.  This means that the entity's `EntityController` proposes a move direction, and then the `GameRules` object evaluates whether the move is allowed, and if so, carries it out.  If the entity is controlled by the user (its `EntityController`'s `isUser` member function returns true), and the proposed move was not allowed, the message "`Illegal Move`" should be displayed using the `UI` object's `displayMessage` member function.
 
-The `gameLoop` member function repeatedly allows `Entity` objects to take turns.  The `Entity` objects should take turns one at a time, in round robin fashion, in the order in which they were added to the `Game`.  For example, if the hero entity was added first, and then the Minotaur entity, then their turns should be taken in the order hero, Minotaur, hero, Minotaur, etc.  The game ends when the `GameRules` object determines that, after an entity has taken a turn, the `GameResult` is either `GameResult::HERO_WINS` or `GameResult::HERO_LOSES`.
+The `gameLoop` member function repeatedly allows `Entity` objects to take turns.  The `Entity` objects should take turns one at a time, in round robin fashion, in the order in which they were added to the `Game`.  For example, if the Hero entity was added first, and then the Minotaur entity, then their turns should be taken in the order Hero, Minotaur, Hero, Minotaur, etc.  The game ends when the `GameRules` object determines that, after an entity has taken a turn, the `GameResult` is either `GameResult::HERO_WINS` or `GameResult::HERO_LOSES`.
 
 The `gameLoop` function should also implement the following additional behavior:
 
@@ -300,7 +300,7 @@ The `GameRules` class defines the member functions which
 
 * determine which moves are legal (requests by entity objects to move from their current position in the maze to another position)
 * carries out legal moves
-* determines whether the game has been won or lost by the hero, or is still in progress
+* determines whether the game has been won or lost by the Hero, or is still in progress
 
 `GameRules` is an abstract class, and the actual behavior of its member functions is only specified at the level of a concrete derived class.
 
@@ -313,15 +313,27 @@ The `allowMove` member function should only allow an `Entity` to make a move if 
 
 Moves out of bounds, or moves by more than 1 unit of distance, are not allowed under any circumstances.
 
-Case 2 of `allowMove` allows an entity to "push" a moveable entity.  Here's an example where the hero pushes an inanimate entity represented by the `*` glyph:
+Case 2 of `allowMove` allows an entity to "push" a moveable entity.  Here's an example where the Hero pushes an inanimate entity represented by the `*` glyph:
 
-TODO: video showing the hero pushing a boulder
+TODO: video showing the Hero pushing a boulder
 
 **Important**: the `allowMove` member function should not change any game data, such as the position of any `Entity` objects. It just determines whether or not a proposed move would be legal.
 
 The `enactMove` member function carries out a move approved by a prior call to `allowMove`.  Usually, this just means changing the current position of an `Entity`.  In the case of an entity pushing a moveable entity, the positions of both entities will need to be updated.
 
 The `checkGameResult` member function should return a `GameResult` value based on the current game state.  If any entity with the "h" property has reached a `Goal` tile, it should return `GameResult::HERO_WINS`.  If any entity with the "m" property occupies a position where an entity with the "h" property is located, it should return `GameRules::HERO_LOSES`.  Otherwise, it should return `GameResult::UNKNOWN`.
+
+### TextUI class
+
+The `TextUI` class is an implementation of `UI` which interacts with the user using `cin` and `cout`.  Its member functions should behave as follows.
+
+The `getMoveDirection` should print the prompt `Your move (u/d/l/r): `, and then read a single input token.  If the token is `u`, `d`, `l`, or `r`, meaning "up", "down", "left", or "right", then the appropriate `Direction` value should be returned. Otherwise, the message "`Unknown direction`" should be printed, and the function should try again to read a valid direction.  The function should continue until the user enters a valid direction.
+
+The `displayMessage` member function should save the parameter string value in a field.
+
+The `render` member function should print a representation of the maze, one line of text per row of the maze, using the appropriate glyph character for each `Tile` and `Entity`.  As a special case, if two entities occupy the same position, the glyph of the entity that was added later should take priority. (For example, if the Minotaur entity was added after the Hero entity, and the Minotaur has captured the Hero, the Minotaur's glyph should be printed, rather than the Hero's glyph.)
+
+Also, after printing the representation of the maze, the `render` member function should check to see if a message (from a prior call to `displayMessage`) is waiting to be displayed.  If so, it should be printed on a single line after the maze representation, preceeded by a colon and space.
 
 ## Recommended approach
 
