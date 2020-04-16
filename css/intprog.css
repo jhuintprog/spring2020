@@ -23,7 +23,7 @@ th, td {
 }
 
 tr:nth-child(even) {
-	background: #eee;
+	background: #f8f8f8;
 }
 
 #content {
@@ -47,7 +47,7 @@ tr:nth-child(even) {
 div.highlighter-rouge {
 	margin-left: 2em;
 	margin-right: 2em;
-	background-color: #eee;
+	background-color: #f8f8f8;
 	border: 1px solid #ccc;
 	padding: 0 1em;
 	border-radius: .25em;
@@ -55,7 +55,7 @@ div.highlighter-rouge {
 
 code.highlighter-rouge {
 	border: 1px solid #ccc;
-	background-color: #eee;
+	background-color: #f8f8f8;
 	padding: 0 .25em;
 	border-radius: .25em;
 }

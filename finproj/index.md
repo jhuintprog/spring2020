@@ -283,6 +283,17 @@ The `AStarChaseHero` implementation of `EntityController` should use the [A\* se
 
 An instance of the `Game` class encapsulates all of the game objects.  It has two important member functions for allow game progress.
 
+To some degree, a `Game` object is just a container for `Maze`, `UI`, `GameRules`, and `Entity` objects.  However, it has two important member functions for orchestrating the overall game progress.
+
+The `takeTurn` member function allows one `Entity` object to take a turn.  This means that the entity's `EntityController` proposes a move direction, and then the `GameRules` object evaluates whether the move is allowed, and if so, carries it out.  If the entity is controlled by the user (its `EntityController`'s `isUser` member function returns true), and the proposed move was not allowed, the message "`Illegal Move`" should be displayed using the `UI` object's `displayMessage` member function.
+
+The `gameLoop` member function repeatedly allows `Entity` objects to take turns.  The `Entity` objects should take turns one at a time, in round robin fashion, in the order in which they were added to the `Game`.  For example, if the hero entity was added first, and then the Minotaur entity, then their turns should be taken in the order hero, Minotaur, hero, Minotaur, etc.  The game ends when the `GameRules` object determines that, after an entity has taken a turn, the `GameResult` is either `GameResult::HERO_WINS` or `GameResult::HERO_LOSES`.
+
+The `gameLoop` function should also implement the following additional behavior:
+
+* Just before an entity takes a turn, if the entity is controlled by the user (its `EntityController`'s `isUser` member function returns true), the `UI` object's `render` member function should be called. This allows the user to see the current game state.
+* When the game ends, the `UI` object's `displayMessage` should be called to display either "`Hero wins`" or "`Hero loses`".
+
 ### GameRules, BasicGameRules classes
 
 The `GameRules` class defines the member functions which
