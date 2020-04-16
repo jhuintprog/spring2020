@@ -48,7 +48,7 @@ Class             | Filename (.h and .cpp)
 
 Each of the above classes is provided as just a header (`.h`) file. You will need to create the corresponding source file (`.cpp`).
 
-**Important**: You must implement the public member functions *exactly* as specified.  Do not add any additional public member functions.  You may add fields and private member functions.
+**Important**: You must implement the public member functions *exactly* as specified.  Do not add any additional public member functions.  You may add fields and private member functions to any of the classes above.
 
 Each public member function has a detailed comment describing what the public member function should do.  Additional details are below in the [hints and specifications](#hints-and-specifications) section.
 
@@ -59,6 +59,8 @@ Class                     | Filename (.h and .cpp)
 `EntityControllerFactory` | `ecfactory`
 `EntityController`        | `entitycontroller`
 `GameRules`               | `gamerules`
+`MysteryController`       | `mysterycontroller`
+`MysteryTile`             | `mysterytile`
 `Position`                | `position`
 `ScriptedControl`         | `scriptedcontrol`
 `TileFactory`             | `tilefactory`
@@ -125,7 +127,18 @@ TODO
 
 ## Recommended approach
 
-TODO
+This section explains our recommendations to making progress on this project.
+
+*Start with the simplest classes.* The `Wall`, `Floor`, and `Goal` classes are fairly simple. The `tiletest.cpp` test program has some useful tests for them, and you can add more of your own.
+
+*Create stub implementations of classes that are required for compilation and linking, but which you aren't ready to work on.* The `EntityControllerFactory` class won't work until you have implemented *all* of the classes which derived from `EntityController`.  One of these, `AStarChaseHero`, is fairly challenging to implement. However, you won't need a working version of this class until relatively late in your development work. So, you can create a *stub* implementation whose member functions throw an exception or deliberately fail an assertion if called. For example, your stub implementation of `AStarChaseHero` might look like this:
+
+```cpp
+Direction AStarChaseHero::getMoveDirection(Game *game, Entity *entity) {
+  assert(false);
+  return Direction::NONE;
+}
+```
 
 <!--
 vim:wrap linebreak nolist:
