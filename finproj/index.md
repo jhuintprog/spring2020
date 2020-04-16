@@ -136,6 +136,14 @@ The `setup` and `cleanup` functions are called automatically to give each test f
 
 However: because C++ is a memory-unsafe language (memory bugs can corrupt the program state), test function executions are not truly independent of each other, and a bug triggered by an earlier test function can affect the results of a later test function.  For that reason, using a command line argument to specify a specific test function ensures the most accurate execution for that test function.
 
+### Sharing unit tests
+
+We would like everyone in the course to contribute to a public collection of unit tests!  This should help everyone complete the project: your group can benefit from unit tests written by other groups, and other groups can benefit from unit tests written by your group.
+
+We have created a public Github repository containing the public tests: <https://github.com/jhuintprog/finproj-tests>
+
+Initially, they will be the same as what is included in the project starter code. The repository's README.md file has instructions on how to contribute to the public unit tests.
+
 ### Driver program
 
 The driver program should be called with a single game file as a command line argument, and allow the user to play the game, using an instance of `TextUI` as the `UI` object.
@@ -335,7 +343,12 @@ Moves out of bounds, or moves by more than 1 unit of distance, are not allowed u
 
 Case 2 of `allowMove` allows an entity to "push" a moveable entity.  Here's an example where the Hero pushes an inanimate entity represented by the `*` glyph:
 
-TODO: video showing the Hero pushing a boulder
+<center>
+<video width="658" height="462" controls>
+  <source src="media/demo5.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
+</center>
 
 **Important**: the `allowMove` member function should not change any game data, such as the position of any `Entity` objects. It just determines whether or not a proposed move would be legal.
 
@@ -369,6 +382,24 @@ Direction AStarChaseHero::getMoveDirection(Game *game, Entity *entity) {
   return Direction::NONE;
 }
 ```
+
+*Write unit tests*. Unit tests will help you get individual classes working. We encourage you to use and contribute to the shared repository of unit tests: see the [Sharing unit tests](#sharing-unit-tests) section.
+
+## Deliverables, submitting
+
+Before you submit:
+
+* Create a `gitlog.txt` file using the command `git log > gitlog.txt`
+* Create a README file with the names and JHED IDs of each team member, describing each team member's main contributions to the project
+* Make sure that each source file has a comment at the top with each team member's name and JHED ID
+
+To submit, create a zipfile containing your `Makefile`, code, README, and `gitlog.txt`:
+
+```
+zip -9r finproj-submission.zip Makefile *.h *.cpp gitlog.txt README
+```
+
+Upload the zipfile to Gradescope.  Only one team member should submit.
 
 <!--
 vim:wrap linebreak nolist:
