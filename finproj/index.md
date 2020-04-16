@@ -146,6 +146,18 @@ void setTile(const Position &pos, Tile *tile);
 
 This means that the `Maze` object should delete its `Tile` objects when its destructor is called.
 
+### Forward declarations
+
+In many of the header files, you will notice *forward declarations* like the following:
+
+```cpp
+class Tile;
+```
+
+A forward declaration indicates that a class exists, but does not reveal anything about its implementation. A forward declaration is sufficient to allow pointers and references to the referred-to type to be declared.  However, actual *uses* of the type, such as instantiating an object or calling a member function, require the definition of the class to be known.
+
+When you are implementing the `.cpp` files for each class, you will need to `#include` the appropriate header files for all types known only as forward declartions.
+
 ### Reading maze data
 
 The `Maze` class's `read` static member function reads maze file data from an `istream`.  A maze file consists of a series of lines.  The first line will have two integers representing the maze's width and height.  Based on the maze height, a number of lines will follow, each line specifying one row of the maze.  The number of characters of each line should be exactly equal to the maze width.  Each character represents one tile of the maze.  A tile character can be converted into a `Tile` object by calling the `createFromChar` member function on the singleton instance of `TileFactory`, which you can get by calling `TileFactory::getInstance()`.  If the `TileFactory`'s `createFromChar` member function returns a null pointer, it means the tile character is not valid, in which case the maze is not valid, and `Maze::read` should return a null pointer.
