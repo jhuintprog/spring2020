@@ -3,7 +3,9 @@ layout: default
 title: "Final project"
 ---
 
-*Preliminary content, not official*
+**Due**: Monday, May 4th by 11pm
+
+*Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
 
 # Hero vs. Minotaur
 
@@ -37,6 +39,18 @@ Create a bitbucket repository for your team, and make sure that all of the team 
 
 Pull from the public repository.  You will find a directory called `final-project/starter-code`.  Copy the files in this directory into the clone of your team repository (only one team member needs to do this).  Commit the starter code, and then push.  Now the other team members can clone the team repository to create their own local repositories.
 
+Note that the starter code includes a `Makefile`.  You are allowed to make changes to it, but you might not need to.  The main requirement of the `Makefile` that you submit is that the following targets build correctly:
+
+* `minotaur` (the [driver program](#driver-program))
+* `positiontest`
+* `tiletest`
+* `mazetest`
+* `gametest`
+
+You may add additional targets as long as the above targets work.
+
+Note that if you run the command `make depend`, the makefile will generate correct header file dependencies for each `.o` file. (Note that this target won't work unless all of the expected `.cpp` files exist.)
+
 ## Tasks
 
 Your tasks are:
@@ -48,6 +62,8 @@ Your tasks are:
 There is also one optional task:
 
 * Implement a [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)) user interface and driver program
+
+There will be a *small* amount of extra credit for the optional curses UI. However, you shouldn't work on it until you have the required features working.
 
 This may seem like a pretty complex project. Don't panic! The [recommended approach](#recommended-approach) section outlines an approach to getting started, making progress, and finishing the project.
 
@@ -142,7 +158,7 @@ We would like everyone in the course to contribute to a public collection of uni
 
 We have created a public Github repository containing the public tests: <https://github.com/jhuintprog/finproj-tests>
 
-Initially, they will be the same as what is included in the project starter code. The repository's README.md file has instructions on how to contribute to the public unit tests.
+Initially, they will be the same as what is included in the project starter code. The repository's README.md file has instructions on how to use and contribute to the public unit tests.
 
 ### Driver program
 
