@@ -107,7 +107,7 @@ Class                     | Filename (.h and .cpp)
 `Tile`                    | `tile`
 `UI`                      | `ui`
 
-In order to develop a high-level understanding of all these classes and the interplay among them, [this] (media/cd.jpg) UML class diagram might be helpful. Reading UML class diagrams is quite straightforward, see [here] (https://www.guru99.com/uml-class-diagram.html).
+In order to develop a high-level understanding of all these classes and the interplay among them, [this]("media/cd.jpg") UML class diagram might be helpful. Reading UML class diagrams is quite straightforward, see [here](https://www.guru99.com/uml-class-diagram.html).
 
 ### Unit testing
 
