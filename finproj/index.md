@@ -107,9 +107,11 @@ Class                     | Filename (.h and .cpp)
 `Tile`                    | `tile`
 `UI`                      | `ui`
 
+In order to develop a high-level understanding of all these classes and the interplay among them, [this] (media/cd.jpg) UML class diagram might be helpful. Reading UML class diagrams is quite straightforward, see [here] (https://www.guru99.com/uml-class-diagram.html).
+
 ### Unit testing
 
-One challenge that arises in creating a complex program is that there are many components that need to work correctly in order for the overall program to work correctly.  In the case of a program written in an object-oriented language (like C++), these components are classes.  One important and useful way to make progress on the implementation of a complex program is to develop and test classes separately.  If the functionality of each class is tested thorougly, you can have some confidence that the overall program will work correctly once all of the individual classes are combined.
+One challenge that arises in creating a complex program is that there are many components that need to work correctly in order for the overall program to work correctly.  In the case of a program written in an object-oriented language (like C++), these components are classes.  One important and useful way to make progress on the implementation of a complex program is to develop and test classes separately.  If the functionality of each class is tested thoroughly, you can have some confidence that the overall program will work correctly once all of the individual classes are combined.
 
 *Unit testing* is a testing technique in which a software component (such as a class) is tested in isolation from the rest of the program.  In a unit test, the *test fixture* is a collection of objects (primarily instances of the class being tested.)  *Test functions* call member functions on the objects in the test fixture, and use *assertions* to verify that correct behavior was observed.  Unit test frameworks such as [JUnit](https://junit.org) can make it easy to write unit test programs.  For this project, we will use a very simple framework called "TCTest++", which is inspired by JUnit.
 
