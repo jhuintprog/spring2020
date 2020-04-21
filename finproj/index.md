@@ -3,6 +3,8 @@ layout: default
 title: "Final project"
 ---
 
+*Update 4/21* — Contributions to the public test repository will be considered for extra credit.  See the [Sharing unit tests](#sharing-unit-tests) section.
+
 **Due**: Monday, May 4th by 11pm
 
 *Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
@@ -64,6 +66,8 @@ There is also one optional task:
 * Implement a [curses](https://en.wikipedia.org/wiki/Curses_(programming_library)) user interface and driver program
 
 There will be a *small* amount of extra credit for the optional curses UI. However, you shouldn't work on it until you have the required features working.
+
+There will also be a small amount of extra credit for contributing tests to the public test repository. See the [Sharing unit tests](#sharing-unit-tests) section for details.
 
 This may seem like a pretty complex project. Don't panic! The [recommended approach](#recommended-approach) section outlines an approach to getting started, making progress, and finishing the project.
 
@@ -161,6 +165,8 @@ We would like everyone in the course to contribute to a public collection of uni
 We have created a public Github repository containing the public tests: <https://github.com/jhuintprog/finproj-tests>
 
 Initially, they will be the same as what is included in the project starter code. The repository's README.md file has instructions on how to use and contribute to the public unit tests.
+
+We will be awarding a small amount of extra credit to groups who contribute tests to the public repository.
 
 ### Driver program
 
