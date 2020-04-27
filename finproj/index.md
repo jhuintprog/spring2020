@@ -7,6 +7,8 @@ title: "Final project"
 
 *Update 4/26* — Clarified that for `ChaseHero` and `AStarChaseHero`, "closest hero" means "closest hero as measured by the `distanceFrom` member function of the `Position` class"
 
+*Update 4/27* — Describe situations where `ChaseHero`'s and `AStarChaseHero`'s `getMoveDirection` member function should return `Direction::NONE`.
+
 **Due**: Monday, May 4th by 11pm
 
 *Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
@@ -332,6 +334,8 @@ Direction dir = ui->getMoveDirection();
 The `ChaseHero` implementation of `EntityController` should move the controlled entity towards the closest `Entity` object with the "h" (Hero) property.  Specifically, it should determine the horizontal distance and vertical distance to the closest Hero (as determined by the `distanceFrom` member function in the `Position` class.)  If the Hero is farther horizontally than vertically, the proposed move should be horizontal, otherwise the proposed move should be vertical. If the Hero is equally far both horizontally and vertically, horizontal movement is preserved.  However, if the controlled `Entity` is blocked along the preferred axis, but movement is possible along the other axis, then the proposed move should be along the unblocked axis.  `ChaseHero` is essentially a simple AI to control the Minotaur, but it's not very smart, and allows the Minotaur to become blocked on dead-end paths in the maze.
 
 The `AStarChaseHero` implementation of `EntityController` should use the [A\* search algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) to move the controlled `Entity` towards the closest entity with the "h" (Hero) property (as determined by the `distanceFrom` member function in the `Position` class.)  As the heuristic function, use the total number of horizontal and vertical to the Hero (this can be found easily using the `distanceFrom` member function of the `Position` class.)  Note that implementing this algorithm is fairly challenging, but is very satisfying when you get it to work.  The A\* algorithm produces a complete path to the goal, but the `getMoveDirection` method should just propose a move in the direction of the first "hop" of the path.  When the Minotaur is controlled by `AStarChaseHero`, its movement will be considerably more "intelligent" than when controlled by `ChaseHero`.  (Please resist the temptation to simply copy an implementation of A\* from a web page.)
+
+Note that the "AI" `EntityController` classes, `ChaseHero` and `AStarChaseHero`, should return `Direction::NONE` if they cannot find a feasible move.  `ChaseHero`'s `getMoveDirection` function should return `Direction::NONE` if there is neither a feasible horizontal nor a feasible vertical move that would reduce the distance between the controlled entity and the closest hero.  `AStarChaseHero`'s `getMoveDirection` function should return `Direction::NONE` if there is no path from the controlled entity's location to the closest hero.
 
 ### The Game class
 
