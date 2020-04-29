@@ -9,7 +9,7 @@ title: "Final project"
 
 *Update 4/27* — Describe situations where `ChaseHero`'s and `AStarChaseHero`'s `getMoveDirection` member function should return `Direction::NONE`.
 
-*Update 4/29* — Fixed a typo.
+*Update 4/29* — Fixed a typo; clarified that a moveable entity can only be pushed onto an unoccupied tile
 
 **Due**: Monday, May 4th by 11pm
 
@@ -369,7 +369,9 @@ The `BasicGameRules` is the "standard" implementation of `GameRules`.  It behave
 The `allowMove` member function should only allow an `Entity` to make a move if either
 
 1. it is onto an adjacent unoccupied `Tile`, and the `Tile`'s `checkMoveOnto` member function allows the move, or
-2. it is onto an adjacent `Tile` occupied by an entity with the "v" (moveable) property, and the moveable entity is permitted to move onto an unoccupied adjacent `Tile` in the same direction that the original entity is moving
+2. it is onto an adjacent `Tile` occupied by an entity with the "v" (moveable) property, and the moveable entity is permitted to move onto an *unoccupied* adjacent `Tile` in the same direction that the original entity is moving
+
+Note that an "unoccupied" Tile is one which doesn't have an Entity on it.
 
 Moves out of bounds, or moves by more than 1 unit of distance, are not allowed under any circumstances.
 
