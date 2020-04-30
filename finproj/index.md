@@ -11,6 +11,8 @@ title: "Final project"
 
 *Update 4/29* — Fixed a typo; clarified that a moveable entity can only be pushed onto an unoccupied tile
 
+*Update 4/30* — Clarified that the driver program's `main` function should be in a source file called `main.cpp`
+
 **Due**: Monday, May 4th by 11pm
 
 *Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
@@ -177,6 +179,8 @@ We will be awarding a small amount of extra credit to groups who contribute test
 ### Driver program
 
 The driver program should be called with a single game file as a command line argument, and allow the user to play the game, using an instance of `TextUI` as the `UI` object.
+
+The reference `Makefile` assumes that the `main` function of the driver program will be in a source file called `main.cpp`.
 
 Here is a possible `main` function you could use for your driver program:
 
