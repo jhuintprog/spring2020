@@ -11,9 +11,9 @@ title: "Final project"
 
 *Update 4/29* — Fixed a typo; clarified that a moveable entity can only be pushed onto an unoccupied tile
 
-*Update 4/30* — Clarified that the driver program's `main` function should be in a source file called `main.cpp`
+*Update 4/30* — Clarified that the driver program's `main` function should be in a source file called `main.cpp`; changed due date
 
-**Due**: Monday, May 4th by 11pm
+**Due**: Wednesday, May 6th by 11pm
 
 *Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
 
