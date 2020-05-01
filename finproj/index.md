@@ -15,8 +15,6 @@ title: "Final project"
 
 **Due**: Wednesday, May 6th by 11pm
 
-*Important*: It is likely that we will be updating this project description to add additional information, hints, and clarifications.
-
 # Hero vs. Minotaur
 
 In this project, your team will implement a maze game in which the Hero ("@") tries to escape and avoid being captured by the Minotaur ("M").
