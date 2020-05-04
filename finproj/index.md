@@ -13,6 +13,8 @@ title: "Final project"
 
 *Update 4/30* — Clarified that the driver program's `main` function should be in a source file called `main.cpp`; changed due date
 
+*Update 5/4* — Clarified that `allowMove` should allow the minotaur to capture the hero, and allow the hero to surrender to the minotaur
+
 **Due**: Wednesday, May 6th by 11pm
 
 # Hero vs. Minotaur
@@ -373,7 +375,12 @@ The `allowMove` member function should only allow an `Entity` to make a move if 
 1. it is onto an adjacent unoccupied `Tile`, and the `Tile`'s `checkMoveOnto` member function allows the move, or
 2. it is onto an adjacent `Tile` occupied by an entity with the "v" (moveable) property, and the moveable entity is permitted to move onto an *unoccupied* adjacent `Tile` in the same direction that the original entity is moving
 
-Note that an "unoccupied" Tile is one which doesn't have an Entity on it.
+Note that an "unoccupied" Tile is one which doesn't have an Entity on it.  Note that there are two exceptions:
+
+1. an entity with the "m" property can move onto a position occupied by an entity with the "h" property
+2. an entity with the "h" property can move onto a position occupied by an entity with the "m" property
+
+The two exceptions are necessary to allow the minotaur to capture the hero, and to allow the hero to surrender to the minotaur.
 
 Moves out of bounds, or moves by more than 1 unit of distance, are not allowed under any circumstances.
 
