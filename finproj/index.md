@@ -13,7 +13,7 @@ title: "Final project"
 
 *Update 4/30* — Clarified that the driver program's `main` function should be in a source file called `main.cpp`; changed due date
 
-*Update 5/4* — Clarified that `allowMove` should allow the minotaur to capture the hero, and allow the hero to surrender to the minotaur
+*Update 5/4* — Clarified that `allowMove` should allow the minotaur to capture the hero, and allow the hero to surrender to the minotaur; added instructions for submitting the [Individual contributions](#individual-contributions-submission) document
 
 **Due**: Wednesday, May 6th by 11pm
 
@@ -430,6 +430,8 @@ Direction AStarChaseHero::getMoveDirection(Game *game, Entity *entity) {
 
 ## Deliverables, submitting
 
+### Team code submission
+
 Before you submit:
 
 * Create a `gitlog.txt` file using the command `git log > gitlog.txt`
@@ -442,7 +444,17 @@ To submit, create a zipfile containing your `Makefile`, code, README, and `gitlo
 zip -9r finproj-submission.zip Makefile *.h *.cpp gitlog.txt README
 ```
 
-Upload the zipfile to Gradescope.  Only one team member should submit.
+Upload the zipfile to Gradescope as **Final Project - Code (team)**.  Only one team member should submit.
+
+### Individual contributions submission
+
+Create a PDF document called `contributions.pdf` with the following sections:
+
+* A section titled ‘TEAM’ (required) which lists each team participant’s name and JHED ID
+* A section titled ‘CONTRIBUTIONS' (required): A brief summary of which team members contributed what to the code submission.
+* A section titled ‘ABOVE AND BEYOND' (optional): If you feel that a team member contributed a particularly large amount of effort to the final product, name them here. You may name at most one team member. Do not name yourself.
+
+Upload the individual contribution document to Gradescope as **Final Project - Contributions (individual)**.  *Each team member will need to submit their own contributions document*.
 
 <!--
 vim:wrap linebreak nolist:
